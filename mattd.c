@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include <unistd.h>
+#include <errno.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -70,6 +72,8 @@ static int start(char *exec) {
 	pid = fork();
 
 	if (pid < 0) {
+		printf("Fork error: %s\n", strerror(errno));
+
 		rc = 1;
 		goto cleanup;
 	}
@@ -107,8 +111,6 @@ cleanup:
 
 static int stop(char *exec) {
 	int rc = 0;
-	char *cmd = NULL;
-	pid_t pid = 0;
 
 	if (status(exec) == 1) {
 		printf("%s is not running.\n", name);
@@ -124,18 +126,10 @@ static int stop(char *exec) {
 	} else {
 		printf("Stopping %s... %s[ OK ]%s\n", name, green, normal);
 
-		pid = pidof(exec);
-
-		cmd = malloc(sizeof(char) * 12);
-		sprintf(cmd, "kill %d", pid);
-		system(cmd);
+		kill(pidof(exec), SIGKILL);
 	}
 
 cleanup:
-	if (cmd) {
-		free(cmd);
-	}
-
 	return rc;
 }
 
