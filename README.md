@@ -1,20 +1,20 @@
-#mattd
+# mattd
 
 Matt Daemon is a Matt Damon daemon
 
-##Installation
+## Installation
 
 ```bash
 make && sudo make install
 ```
 
-##Usage
+## Usage
 
 ```
 Usage: mattd [start|stop|restart|status]
 ```
 
-##Explanation
+## Explanation
 
 Matt Daemon is a daemon that can't be stopped. Unless you sudo.
 
@@ -38,7 +38,7 @@ Stopping Matt Daemon... [ OK ]
 
 Note: This version does not use `service` like in the example below because Mac.
 
-##Acknowledgements
+## Acknowledgements
 
 Inspired by [this blog post](http://blog.yjl.im/2012/02/you-cant-stop-matt-daemon.html) and the actor.
 
